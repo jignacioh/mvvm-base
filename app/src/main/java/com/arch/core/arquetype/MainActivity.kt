@@ -5,10 +5,19 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import androidx.databinding.ViewDataBinding
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseDemoActivity<ViewDataBinding, BaseViewModel>() {
+
+    override val bindingVariable: Int
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    override val viewModel: BaseViewModel
+        get() = viewModel //TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    override val layoutId: Int
+        get() = R.layout.activity_main//TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

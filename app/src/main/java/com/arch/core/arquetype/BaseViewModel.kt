@@ -1,6 +1,6 @@
 package com.arch.core.arquetype
 
-import android.databinding.ObservableBoolean
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 
 import java.lang.ref.WeakReference
