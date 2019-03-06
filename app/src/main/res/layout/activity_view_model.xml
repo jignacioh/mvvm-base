@@ -4,9 +4,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="com.arch.core.arquetype.viewmodelui.ViewModelActivity">
     <data>
+        <import type="android.view.View" />
         <variable
-                name="activityViewmodel"
+                name="viewModel"
                 type="com.arch.core.arquetype.viewmodelui.UiViewModel"/>
+        <variable
+                name="user"
+                type="com.arch.core.arquetype.viewmodelui.User"/>
     </data>
 
     <LinearLayout
@@ -15,8 +19,14 @@
             android:orientation="vertical">
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="View Model"
+                android:layout_height="wrap_content"
+                android:text="@{user.name}"
+        />
+        <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DO ACTION"
+                android:onClick="@{() -> viewModel.doAction()}"
         />
     </LinearLayout>
 

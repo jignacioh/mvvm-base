@@ -11,9 +11,10 @@ import android.os.Build
 import android.annotation.TargetApi
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.arch.core.arquetype.viewmodelui.UINavigator
 
 
-abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel> : AppCompatActivity() {
+abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() {
 
     var viewDataBinding: T? = null
         private set
@@ -36,7 +37,7 @@ abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel> : AppCom
     abstract val viewModel: V
 
     override fun attachBaseContext(newBase: Context) {
-        //configurate sdk
+        super.attachBaseContext(newBase)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +82,7 @@ abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel> : AppCom
             requestPermissions(permissions, requestCode)
         }
     }
+
 }
 
 
