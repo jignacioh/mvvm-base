@@ -1,6 +1,5 @@
 package com.arch.core.arquetype.viewmodelui
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +11,13 @@ import com.arch.core.arquetype.databinding.ActivityViewModelBinding
 
 
 class ViewModelActivity : BaseDemoActivity<ActivityViewModelBinding, UiViewModel>(), UINavigator{
+    override fun campoVacio() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun successLogin() {
+
+    }
 
     val factory = ViewModelProvider.NewInstanceFactory()
 
@@ -28,7 +34,7 @@ class ViewModelActivity : BaseDemoActivity<ActivityViewModelBinding, UiViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityLoginBinding = viewDataBinding
-        viewModel.setNavigator(this)
+        viewModel.setNavigatorActivity(this)
 
         var user = User()
         user.name="Juan"

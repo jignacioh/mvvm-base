@@ -4,4 +4,8 @@ interface UINavigator {
 
     fun showAction()
 
+    fun successLogin()
+
+    fun campoVacio()
+
 }

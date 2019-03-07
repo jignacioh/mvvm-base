@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.arch.core.arquetype.login.LoginActivity">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+                name="loginVM"
+                type="com.arch.core.arquetype.login.LoginViewModel"/>
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center">
+        <EditText
+                android:id="@+id/txtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@{loginVM.userText}"
+                android:inputType="text"/>
+        <EditText
+                android:id="@+id/txtPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@{loginVM.passText}"
+                android:layout_marginTop="10dp"
+                android:inputType="textPassword"/>
+        <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{loginVM.buttonText}"
+                android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+</layout>

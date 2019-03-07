@@ -1,12 +1,14 @@
 package com.arch.core.arquetype.viewmodelui
 
-import androidx.lifecycle.ViewModel
 import com.arch.core.arquetype.BaseViewModel
+import com.arch.core.arquetype.login.LoginModel
 
-class UiViewModel : BaseViewModel<UINavigator>(){
+class UiViewModel : BaseViewModel<UINavigator, LoginModel>(){
+    override val loginModel: LoginModel
+        get() = LoginModel()
 
     fun doAction() {
-        getNavigator()?.showAction()
+        getNavigatorActivity()?.showAction()
    }
 
 }

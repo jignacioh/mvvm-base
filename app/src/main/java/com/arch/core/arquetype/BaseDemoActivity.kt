@@ -9,12 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.annotation.TargetApi
-import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.arch.core.arquetype.viewmodelui.UINavigator
 
 
-abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() {
+abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : AppCompatActivity() {
 
     var viewDataBinding: T? = null
         private set
