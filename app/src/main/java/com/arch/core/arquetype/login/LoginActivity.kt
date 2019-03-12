@@ -13,8 +13,11 @@ import com.arch.core.arquetype.databinding.LoginActivityBinding
 import com.arch.core.arquetype.viewmodelui.UINavigator
 import com.arch.core.arquetype.viewmodelui.ViewModelActivity
 import kotlinx.android.synthetic.main.login_activity.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseDemoActivity<LoginActivityBinding, LoginViewModel>(), UINavigator, View.OnClickListener {
+
+    val  koinViewModel : LoginViewModel by viewModel()
 
     val factory = ViewModelProvider.NewInstanceFactory()
     private var mLoginBinding: LoginActivityBinding? = null
@@ -24,7 +27,7 @@ class LoginActivity : BaseDemoActivity<LoginActivityBinding, LoginViewModel>(), 
     override val bindingVariable: Int
         get() = BR.loginVM
     override val viewModel: LoginViewModel
-        get() = ViewModelProviders.of(this, factory).get(LoginViewModel::class.java)
+        get() = koinViewModel//ViewModelProviders.of(this, factory).get(LoginViewModel::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

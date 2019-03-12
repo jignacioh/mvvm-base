@@ -1,24 +1,26 @@
 package com.arch.core.arquetype.login
 
 import com.arch.core.arquetype.BaseViewModel
+import com.arch.core.arquetype.koin.HelloRepository
 import com.arch.core.arquetype.viewmodelui.UINavigator
 
-class LoginViewModel : BaseViewModel<UINavigator, LoginModel>(), UINavigator{
+class LoginViewModel(val repo : HelloRepository) : BaseViewModel<UINavigator, LoginModel>(), UINavigator{
 
     private val model = LoginModel()
+
 
     override val loginModel: LoginModel
         get() = model
 
     fun getUserText(): String {
-        return "Nombre de Usuario"
+        return repo.userText()
     }
 
     fun getPassText():String{
-        return "Contraseña"
+        return repo.passText()
     }
     fun getButtonText(): String {
-        return "Iniciar"
+        return repo.buttonText()
     }
 
     override fun showAction() {
