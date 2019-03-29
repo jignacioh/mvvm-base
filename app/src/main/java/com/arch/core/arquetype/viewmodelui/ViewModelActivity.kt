@@ -1,23 +1,27 @@
 package com.arch.core.arquetype.viewmodelui
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.arch.core.arquetype.BR
 import com.arch.core.arquetype.R
-import com.arch.core.arquetype.BaseDemoActivity
+import com.arch.core.arquetype.base.BaseActivity
 import com.arch.core.arquetype.databinding.ActivityViewModelBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class ViewModelActivity : BaseDemoActivity<ActivityViewModelBinding, UiViewModel>(), UINavigator{
+class ViewModelActivity : BaseActivity<ActivityViewModelBinding, UiViewModel>(), UINavigator {
+
 
     val factory = ViewModelProvider.NewInstanceFactory()
 
-    override val viewModel: UiViewModel
-        get() = ViewModelProviders.of(this, factory).get(UiViewModel::class.java) //To change initializer of created properties use File | Settings | File Templates.
 
+    override val viewModel: UiViewModel
+        get() {
+            // ViewModelProviders.of(this, factory).get(UiViewModel::class.java)
+            val model: UiViewModel by viewModel()
+            return model
+        }
     override val layoutId: Int
         get() = R.layout.activity_view_model
     override val bindingVariable: Int
@@ -25,19 +29,21 @@ class ViewModelActivity : BaseDemoActivity<ActivityViewModelBinding, UiViewModel
 
     private var mActivityLoginBinding: ActivityViewModelBinding? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityLoginBinding = viewDataBinding
         viewModel.setNavigator(this)
 
         var user = User()
-        user.name="Juan"
+        user.name = "Juan"
 
-        viewDataBinding?.user=user
+        viewDataBinding?.user = user
 
     }
 
     override fun showAction() {
-        Log.i("showAction","doAction")
+        Log.i("showAction", "doAction" + viewModel.repo.giveHello())
     }
+
 }

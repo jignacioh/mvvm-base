@@ -1,4 +1,4 @@
-package com.arch.core.arquetype
+package com.arch.core.arquetype.base
 
 import android.content.Context
 import androidx.databinding.DataBindingUtil
@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.annotation.TargetApi
-import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.arch.core.arquetype.viewmodelui.UINavigator
 
 
-abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() {
+
+
 
     var viewDataBinding: T? = null
         private set
@@ -43,6 +43,7 @@ abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*>> : App
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         performDataBinding()
+        lifecycle.addObserver(viewModel)
     }
 
     private fun performDataBinding() {
@@ -56,23 +57,11 @@ abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*>> : App
     fun hasPermission(permission: String): Boolean {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
-
-    /*fun hideKeyboard(){
-        var view : View = this.currentFocus
-
-        if (view!=null){
-            var inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)
-            if (inputMethodManager!=null){
-                inputMethodManager.hi
-            }
-        }
-    }*/
-
     fun hideKeyboard() {
         val view = this.currentFocus
         if (view != null) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -82,7 +71,10 @@ abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*>> : App
             requestPermissions(permissions, requestCode)
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(viewModel)
+    }
 }
 
 
