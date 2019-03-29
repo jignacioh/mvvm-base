@@ -1,5 +1,9 @@
-package com.arch.core.arquetype.viewmodelui
+package com.arch.core.arquetype.di
 
+import com.arch.core.arquetype.repository.TasksRepository
+import com.arch.core.arquetype.repository.TasksRepositoryImpl
+import com.arch.core.arquetype.viewmodelui.TasksViewModel
+import com.arch.core.arquetype.viewmodelui.UiViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -11,8 +15,8 @@ val appModule = module {
     viewModel{ UiViewModel(get()) }
     viewModel { TasksViewModel(get()) }
 
-    single<UiViewModel.HelloRepository> {UiViewModel.HelloRepositoryImpl() }
-    single<TasksViewModel.TasksRepository> { TasksViewModel.TasksRepositoryImpl() }
+    single<UiViewModel.HelloRepository> { UiViewModel.HelloRepositoryImpl() }
+    single<TasksRepository> { TasksRepositoryImpl() }
 }
 
 val appModules = listOf(appModule)

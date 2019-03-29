@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.arch.core.arquetype.R
-import com.arch.core.arquetype.model.Model
 import com.arch.core.arquetype.model.Task
 
-class RvAdapter(val userList: ArrayList<Task>) : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
+class TasksAdapter(val userList: ArrayList<Task>) : RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
 
 
 

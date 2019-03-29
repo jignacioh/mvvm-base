@@ -39,7 +39,7 @@ class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),Tasks
 
         mActivityTasksBinding!!.recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        val rvAdapter = RvAdapter(tasks)
+        val rvAdapter = TasksAdapter(tasks)
         mActivityTasksBinding!!.recyclerView.adapter = rvAdapter
 
         //lifecycle.addObserver(viewModel)

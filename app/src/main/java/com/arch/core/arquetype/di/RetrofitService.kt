@@ -1,4 +1,4 @@
-package com.arch.core.arquetype.viewmodelui
+package com.arch.core.arquetype.di
 
 import com.arch.core.arquetype.model.Model
 import com.arch.core.arquetype.model.Task

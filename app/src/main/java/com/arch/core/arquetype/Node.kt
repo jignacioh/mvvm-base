@@ -8,7 +8,7 @@ import com.arch.core.arquetype.base.BaseRepository
 import com.arch.core.arquetype.base.BaseViewModel
 import com.arch.core.arquetype.model.Model
 import com.arch.core.arquetype.model.Task
-import com.arch.core.arquetype.viewmodelui.RetrofitFactory
+import com.arch.core.arquetype.di.RetrofitFactory
 import com.arch.core.arquetype.viewmodelui.TasksNavigator
 import kotlinx.coroutines.*
 import retrofit2.HttpException
