@@ -1,8 +1,8 @@
-package com.arch.core.arquetype
+package com.arch.core.arquetype.base_con_binding
 
 import java.lang.ref.WeakReference
 
-abstract class BaseModel<N> {
+abstract class BaseRepository<N> {
 
     private var mNavigatorViewModel: WeakReference<N>? = null
 

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.arch.core.arquetype">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:name=".koin.MyApplication"
             android:allowBackup="true"
@@ -10,10 +12,25 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".live_data.LiveDataActivity"/>
+        <activity android:name=".coroutines.CoRoutine"/>
+        <activity android:name=".login.LoginActivity"/>
         <activity android:name=".koin.Main2Activity"/>
         <activity android:name=".viewmodelui.ViewModelActivity"/>
+        <!--
+ <activity
+                android:name=".coroutines.CoRoutine"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        -->
         <activity
-                android:name=".login.LoginActivity"
+                android:name=".live_data.login.LoginActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -1,6 +1,6 @@
 package com.arch.core.arquetype.login
 
-import com.arch.core.arquetype.BaseViewModel
+import com.arch.core.arquetype.base_con_binding.BaseViewModel
 import com.arch.core.arquetype.koin.HelloRepository
 import com.arch.core.arquetype.viewmodelui.UINavigator
 

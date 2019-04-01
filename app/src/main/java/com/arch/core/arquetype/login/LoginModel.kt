@@ -1,9 +1,9 @@
 package com.arch.core.arquetype.login
 
-import com.arch.core.arquetype.BaseModel
+import com.arch.core.arquetype.base_con_binding.BaseRepository
 import com.arch.core.arquetype.viewmodelui.UINavigator
 
-class LoginModel : BaseModel<UINavigator>() {
+class LoginModel : BaseRepository<UINavigator>() {
 
     fun procesarUsuario(user: String, pass: String){
         if (user.isNullOrEmpty() || pass.isNullOrEmpty()){

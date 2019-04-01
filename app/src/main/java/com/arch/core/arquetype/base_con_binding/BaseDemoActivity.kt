@@ -1,4 +1,4 @@
-package com.arch.core.arquetype
+package com.arch.core.arquetype.base_con_binding
 
 import android.content.Context
 import androidx.databinding.DataBindingUtil

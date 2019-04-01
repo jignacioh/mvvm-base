@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.arch.core.arquetype.BR
-import com.arch.core.arquetype.BaseDemoActivity
+import com.arch.core.arquetype.base_con_binding.BaseDemoActivity
 import com.arch.core.arquetype.R
 import com.arch.core.arquetype.databinding.LoginActivityBinding
 import com.arch.core.arquetype.viewmodelui.UINavigator
