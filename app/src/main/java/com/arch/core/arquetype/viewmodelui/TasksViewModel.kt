@@ -18,7 +18,7 @@ class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNav
 
     var arrayList = MutableLiveData<Model>()
 
-    var popularMoviesLiveData = MutableLiveData<MutableList<Task>>()
+    var tasksLiveData = MutableLiveData<MutableList<Task>>()
 
     private val parentJob = Job()
 
@@ -27,13 +27,20 @@ class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNav
 
     private val scope = CoroutineScope(coroutineContext)
 
+    val vTask = Task(3)
 
     fun addOne() {
 
+        val(id)=vTask
+
+        print(vTask.component1())
+
+        var vTask2=vTask.copy(id=4)
+
         scope.launch {
-            val popularMovies = repository.getMoreTasks()
-            if (popularMovies != null) {
-                popularMoviesLiveData.postValue(popularMovies)
+            val tasks = repository.getMoreTasks()
+            if (tasks != null) {
+                tasksLiveData.postValue(tasks)
             }
         }
     }
@@ -42,7 +49,7 @@ class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNav
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
         Log.i("onCreate","onCreate viewModel")
-        popularMoviesLiveData.postValue( repository.getTasks())
+        tasksLiveData.postValue( repository.getTasks())
 
     }
 
