@@ -2,9 +2,10 @@ package com.arch.core.arquetype.base_con_binding
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
+import com.arch.core.arquetype.base.BaseRepository
 import java.lang.ref.WeakReference
 
-abstract class BaseViewModel<N, M : BaseRepository<N>> : ViewModel() {
+abstract class BaseViewModel<N, M : BaseModel<N>> : ViewModel() {
 
     abstract val loginModel:M
 

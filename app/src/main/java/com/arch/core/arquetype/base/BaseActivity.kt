@@ -1,4 +1,4 @@
-package com.arch.core.arquetype.base_con_binding
+package com.arch.core.arquetype.base
 
 import android.content.Context
 import androidx.databinding.DataBindingUtil
@@ -12,13 +12,23 @@ import android.annotation.TargetApi
 import android.view.inputmethod.InputMethodManager
 
 
-abstract class BaseDemoActivity_S<V : BaseViewModel_S<*, *>> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() {
 
+
+
+    var viewDataBinding: T? = null
+        private set
     private var mViewModel: V? = null
 
     @get:LayoutRes
     abstract val layoutId: Int
 
+    /**
+     * Override for set binding variable
+     *
+     * @return variable id
+     */
+    abstract val bindingVariable: Int
     /**
      * Override for set view model
      *
@@ -32,29 +42,26 @@ abstract class BaseDemoActivity_S<V : BaseViewModel_S<*, *>> : AppCompatActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        performDataBinding()
+        lifecycle.addObserver(viewModel)
+    }
+
+    private fun performDataBinding() {
+        viewDataBinding = DataBindingUtil.setContentView(this, layoutId)
+        this.mViewModel = if (mViewModel == null) viewModel else mViewModel
+        viewDataBinding!!.setVariable(bindingVariable, mViewModel)
+        viewDataBinding!!.executePendingBindings()
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     fun hasPermission(permission: String): Boolean {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
-
-    /*fun hideKeyboard(){
-        var view : View = this.currentFocus
-
-        if (view!=null){
-            var inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)
-            if (inputMethodManager!=null){
-                inputMethodManager.hi
-            }
-        }
-    }*/
-
     fun hideKeyboard() {
         val view = this.currentFocus
         if (view != null) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -64,7 +71,10 @@ abstract class BaseDemoActivity_S<V : BaseViewModel_S<*, *>> : AppCompatActivity
             requestPermissions(permissions, requestCode)
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(viewModel)
+    }
 }
 
 
