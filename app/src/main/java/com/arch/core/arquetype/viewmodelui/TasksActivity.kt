@@ -50,7 +50,7 @@ class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),Tasks
     override fun onResume() {
         super.onResume()
         Log.i("onResume","onResume activity")
-        viewModel.popularMoviesLiveData.observe(this,observerTask)
+        viewModel.tasksLiveData.observe(this,observerTask)
     }
 
     val observerTask = Observer<MutableList<Task>> { value ->
@@ -65,6 +65,6 @@ class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),Tasks
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.popularMoviesLiveData.removeObserver(observerTask)
+        viewModel.tasksLiveData.removeObserver(observerTask)
     }
 }
