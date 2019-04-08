@@ -2,6 +2,8 @@ package com.arch.core.arquetype.viewmodelui
 
 interface TasksNavigator {
 
-    fun showAction()
+    fun showAction(state : Boolean)
+
+    fun showError()
 
 }

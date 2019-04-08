@@ -5,9 +5,6 @@ import com.arch.core.arquetype.base.BaseViewModel
 class UiViewModel(val repo:HelloRepository) : BaseViewModel<UINavigator>(){
 
     fun doAction() {
-
-
-
         getNavigator()?.showAction()
    }
 

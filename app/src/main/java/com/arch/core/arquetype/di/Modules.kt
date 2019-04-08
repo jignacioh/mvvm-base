@@ -1,7 +1,8 @@
 package com.arch.core.arquetype.di
 
-import com.arch.core.arquetype.repository.TasksRepository
+import com.arch.core.arquetype.executor.CoroutinesExecutor
 import com.arch.core.arquetype.repository.TasksRepositoryImpl
+import com.arch.core.arquetype.usecase.*
 import com.arch.core.arquetype.viewmodelui.TasksViewModel
 import com.arch.core.arquetype.viewmodelui.UiViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -12,17 +13,30 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 val appModule = module {
+
+
+    // Executor
+    single { CoroutinesExecutor() }
+
+    // Repository
+    single { TasksRepositoryImpl() }
+
+    // Use Case
+    single { TasksUseCaseImpl(getTasksRepositoryImpl = get(),getCoroutinesExecutor = get()) }
+
+    // ViewModel
     viewModel{ UiViewModel(get()) }
-    viewModel { TasksViewModel(get()) }
+    viewModel { TasksViewModel(getTasksUseCase = get()) }
+
+
 
     single<UiViewModel.HelloRepository> { UiViewModel.HelloRepositoryImpl() }
-    single<TasksRepository> { TasksRepositoryImpl() }
 }
 
 val appModules = listOf(appModule)
 
 object RetrofitFactory {
-    const val BASE_URL = "http://192.168.0.151"
+    const val BASE_URL = "http://192.168.8.105"
 
     fun makeRetrofitService(): RetrofitService {
         return Retrofit.Builder()
