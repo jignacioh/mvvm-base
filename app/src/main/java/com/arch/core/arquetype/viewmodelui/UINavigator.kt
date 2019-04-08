@@ -8,4 +8,6 @@ interface UINavigator {
 
     fun campoVacio()
 
+    fun showError(message : String)
+
 }

@@ -5,6 +5,9 @@ import com.arch.core.arquetype.koin.HelloRepository
 import com.arch.core.arquetype.viewmodelui.UINavigator
 
 class LoginViewModel(val repo : HelloRepository) : BaseViewModel<UINavigator, LoginModel>(), UINavigator{
+    override fun showError(message: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val model = LoginModel()
 

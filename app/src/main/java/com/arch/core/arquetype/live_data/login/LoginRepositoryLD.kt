@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.arch.core.arquetype.base.BaseRepository
 import com.arch.core.arquetype.di.RetrofitFactory
+import com.arch.core.arquetype.model.LoginLD
 import com.arch.core.arquetype.retrofit.RestClient
 import com.arch.core.arquetype.retrofit.RetrofitClient
 import io.reactivex.Observable
@@ -15,85 +16,19 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.properties.Delegates
 
-class LoginRepository : BaseRepository() {
+class LoginRepositoryLD : BaseRepository() {
 
-    suspend fun validarUser() : Response<PojoLogin>?{
+    suspend fun validarUser() : LoginLD?{
         val service = RetrofitFactory.makeRetrofitService()
         val loginResponse = safeApiCall(
-            call = {service.getDataLogin().await()},
+            call = {
+                service.getDataLogin().await()
+            },
             errorMessage = "Error Al Loguearse"
         )
+
 
         return loginResponse
     }
 
-
-
-    /*var statusMutable : MutableLiveData<Response<PojoLogin>>? = null
-
-    init {
-        statusMutable = MutableLiveData()
-    }
-
-    fun getMutable() : MutableLiveData<Response<PojoLogin>>{
-        if (statusMutable == null)
-            statusMutable =  MutableLiveData()
-
-        return statusMutable as MutableLiveData<Response<PojoLogin>>
-    }
-
-    fun repositoryResponse(user : String, pass : String) : Boolean{
-        val success : Boolean
-        var obs : Observable<Response<PojoLogin>>
-
-        if (user.isNullOrEmpty() or pass.isNullOrEmpty()){
-            success = false
-        }
-        else{
-            val retrofitClient = RetrofitClient()
-
-            val service = retrofitClient.retrofitClient().create(RestClient::class.java)
-
-            val call = service.getDataLogin()
-
-            call.enqueue(object : Callback<PojoLogin> {
-                override fun onFailure(call: Call<PojoLogin>, t: Throwable) {
-                    Log.e("Error Retrofit", t.message)
-                }
-
-                override fun onResponse(call: Call<PojoLogin>, response: Response<PojoLogin>) {
-                    val responseRetrofit : PojoLogin = response.body()!!
-                    Log.i("Response exitoso", "Fin Consulta...")
-
-                    //observable = Observable.just(response)
-                    //statusMutable?.postValue(response)
-                }
-
-            })
-
-            success = true
-        }
-
-        return success
-    }
-
-    fun obtenerObserver(response: Response<PojoLogin>) : Observer<Response<PojoLogin>>{
-        return object : Observer<Response<PojoLogin>> {
-            override fun onComplete() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onNext(t: Response<PojoLogin>) {
-                statusMutable?.postValue(response)
-            }
-
-            override fun onError(e: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        }
-    }*/
 }

@@ -1,6 +1,7 @@
 package com.arch.core.arquetype.live_data.login
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,35 +10,32 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import com.arch.core.arquetype.BR
 import com.arch.core.arquetype.base_con_binding.BaseDemoActivity
 import com.arch.core.arquetype.R
 import com.arch.core.arquetype.databinding.ActivityNameBinding
-import com.arch.core.arquetype.koin.MyViewModel
 import com.arch.core.arquetype.viewmodelui.UINavigator
 import com.arch.core.arquetype.viewmodelui.ViewModelActivity
-import org.koin.android.viewmodel.ext.android.getViewModel
+import kotlinx.android.synthetic.main.activity_name.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import retrofit2.Response
 
-class LoginActivity : BaseDemoActivity<ActivityNameBinding, LoginViewModel>(), UINavigator {
+class LoginActivityLD : BaseDemoActivity<ActivityNameBinding, LoginViewModelLD>(), UINavigator {
 
-    val myViewModel : LoginViewModel by viewModel()
+    val myViewModel : LoginViewModelLD by viewModel()
 
     override val layoutId: Int
         get() = R.layout.activity_name
     override val bindingVariable: Int
         get() = BR.loginLiveData
-    override val viewModel: LoginViewModel
+    override val viewModel: LoginViewModelLD
         get() = myViewModel //ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
     lateinit var btnRunner : Button
     lateinit var txtUser : EditText
     lateinit var txtPassword : EditText
-    lateinit var backgroundColor : RelativeLayout
+    lateinit var backgroundLoader : RelativeLayout
+
+    lateinit var animationDrawable: AnimationDrawable
 
     override fun showAction() {
 
@@ -51,45 +49,39 @@ class LoginActivity : BaseDemoActivity<ActivityNameBinding, LoginViewModel>(), U
         showError("Datos incorrectos")
     }
 
-    private lateinit var viewmodel: LoginViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_name)
 
-        viewmodel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        viewmodel.setNavigatorActivity(this)
+        myViewModel.setNavigatorActivity(this)
 
         btnRunner = findViewById(R.id.btnRunner)
         txtUser = findViewById(R.id.txtUser)
         txtPassword = findViewById(R.id.txtPassword)
-        backgroundColor = findViewById(R.id.backgroundColor)
+        backgroundLoader = findViewById(R.id.backgroundLoader)
 
-
-        viewmodel.mutableResponse.observe(this, object : Observer<Response<PojoLogin>> {
-            override fun onChanged(response: Response<PojoLogin>?) {
-                if (response != null) {
-                    viewmodel.repositoryResponse(txtUser.text.toString(), txtPassword.text.toString())
-                }
-            }
-        })
+        backgroundLoader.setOnClickListener {
+            backgroundLoader.visibility = View.GONE
+            hideLoader()
+            myViewModel.cancelCoRoutine()
+        }
 
         validatePass()
 /*
         btnRunner.setOnClickListener {
             Log.i("Android", "Inicio Consulta...")
-            viewmodel.changeButtonText()
+            myViewModel.changeButtonText()
         }*/
     }
 
     fun abrirIntent(){
-        backgroundColor.visibility = View.GONE
+        backgroundLoader.visibility = View.GONE
         startActivity(Intent(this, ViewModelActivity::class.java))
     }
 
-    fun showError(message : String){
-        backgroundColor.visibility = View.GONE
+    override fun showError(message : String){
+        backgroundLoader.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -97,8 +89,9 @@ class LoginActivity : BaseDemoActivity<ActivityNameBinding, LoginViewModel>(), U
         txtPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s?.length == 4) {
-                    backgroundColor.visibility = View.VISIBLE
-                    viewmodel.changeFlagLogin()
+                    backgroundLoader.visibility = View.VISIBLE
+                    showLoader()
+                    myViewModel.changeFlagLogin()
                 }
             }
 
@@ -110,5 +103,14 @@ class LoginActivity : BaseDemoActivity<ActivityNameBinding, LoginViewModel>(), U
 
             }
         })
+    }
+
+    fun showLoader(){
+        animationDrawable = ivLoader.drawable as AnimationDrawable
+        ivLoader.post(Runnable { animationDrawable.start() })
+    }
+
+    fun hideLoader(){
+        ivLoader.post(Runnable { animationDrawable.stop() })
     }
 }

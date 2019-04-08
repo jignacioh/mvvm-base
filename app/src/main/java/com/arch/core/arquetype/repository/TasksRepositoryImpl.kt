@@ -24,6 +24,16 @@ open class TasksRepositoryImpl() : BaseRepository(),TasksRepository {
         dataList.add(Task( 3,"Windows"))
         dataList.add(Task( 4,"Native"))
 
+        object : TasksRepository {
+            override fun getTasks(): MutableList<Task>? {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override suspend fun getMoreTasks(): MutableList<Task>? {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        }
+
         return dataList.toMutableList()
     }
 }

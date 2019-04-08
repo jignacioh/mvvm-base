@@ -1,8 +1,11 @@
 package com.arch.core.arquetype.live_data.login
 
+import com.squareup.moshi.JsonClass
 import java.util.ArrayList
 
-class PojoLogin() {
+
+//@JsonClass(generateAdapter = true)
+class PojoLogin(){//(var category : ArrayList<String>, var icon_url : String, var id : String, var url : String, var value : String) {
     val category : ArrayList<String>? = null
     val icon_url : String? = null
     val id : String? = null

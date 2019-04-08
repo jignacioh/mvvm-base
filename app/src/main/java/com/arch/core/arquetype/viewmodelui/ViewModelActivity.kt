@@ -11,6 +11,10 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ViewModelActivity : BaseActivity<ActivityViewModelBinding, UiViewModel>(), UINavigator {
+    override fun showError(message: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun campoVacio() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

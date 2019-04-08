@@ -23,7 +23,7 @@ class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNav
     private val parentJob = Job()
 
     private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Default
+        get() = parentJob + Dispatchers.Default+CoroutineName("sd")
 
     private val scope = CoroutineScope(coroutineContext)
 

@@ -1,6 +1,7 @@
 package com.arch.core.arquetype.koin
 
 import android.app.Application
+import com.arch.core.arquetype.live_data.login.LoginViewModelLD
 import com.arch.core.arquetype.login.LoginViewModel
 import org.koin.android.ext.android.startKoin
 import org.koin.android.viewmodel.ext.koin.viewModel
@@ -14,6 +15,7 @@ class MyApplication : Application() {
         factory { MySimplePresenter(get()) }
 
         viewModel { LoginViewModel(get()) }
+        viewModel { LoginViewModelLD(get()) }
 
     }
 

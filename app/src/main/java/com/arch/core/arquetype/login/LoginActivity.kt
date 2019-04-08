@@ -15,6 +15,9 @@ import kotlinx.android.synthetic.main.login_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseDemoActivity<LoginActivityBinding, LoginViewModel>(), UINavigator, View.OnClickListener {
+    override fun showError(message: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     val  koinViewModel : LoginViewModel by viewModel()
 
