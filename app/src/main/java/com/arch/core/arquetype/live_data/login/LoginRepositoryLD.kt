@@ -3,6 +3,8 @@ package com.arch.core.arquetype.live_data.login
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.arch.core.arquetype.base.BaseRepository
+import com.arch.core.arquetype.di.RetrofitFactory
 import com.arch.core.arquetype.retrofit.RestClient
 import com.arch.core.arquetype.retrofit.RetrofitClient
 import io.reactivex.Observable
@@ -13,9 +15,21 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.properties.Delegates
 
-class LoginRepository{
+class LoginRepository : BaseRepository() {
 
-    var statusMutable : MutableLiveData<Response<PojoLogin>>? = null
+    suspend fun validarUser() : Response<PojoLogin>?{
+        val service = RetrofitFactory.makeRetrofitService()
+        val loginResponse = safeApiCall(
+            call = {service.getDataLogin().await()},
+            errorMessage = "Error Al Loguearse"
+        )
+
+        return loginResponse
+    }
+
+
+
+    /*var statusMutable : MutableLiveData<Response<PojoLogin>>? = null
 
     init {
         statusMutable = MutableLiveData()
@@ -28,7 +42,7 @@ class LoginRepository{
         return statusMutable as MutableLiveData<Response<PojoLogin>>
     }
 
-    fun repositoryResponse(user : String, pass : String, observable: Observable<Response<PojoLogin>>) : Boolean{
+    fun repositoryResponse(user : String, pass : String) : Boolean{
         val success : Boolean
         var obs : Observable<Response<PojoLogin>>
 
@@ -81,5 +95,5 @@ class LoginRepository{
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         }
-    }
+    }*/
 }

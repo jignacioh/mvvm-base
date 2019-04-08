@@ -2,64 +2,52 @@ package com.arch.core.arquetype.live_data.login
 
 import androidx.lifecycle.*
 import com.arch.core.arquetype.base_con_binding.BaseViewModel
+import com.arch.core.arquetype.coroutines.CoRoutine
 import com.arch.core.arquetype.login.LoginModel
 import com.arch.core.arquetype.viewmodelui.UINavigator
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import retrofit2.Response
+import kotlin.coroutines.CoroutineContext
 
-class LoginViewModel : BaseViewModel<UINavigator, LoginModel>(){
+class LoginViewModel(val repository : LoginRepository) : BaseViewModel<UINavigator, LoginModel>(){
 
-    lateinit var observable : Observable<Response<PojoLogin>>
-    lateinit var observer : Observer<Response<PojoLogin>>
+    val mutableResponse = MutableLiveData<Response<PojoLogin>>()
+
+    private val parentJob = Job()
+
+    private val coroutineContext: CoroutineContext
+        get() = parentJob + Dispatchers.Default
+
+    private val scope = CoroutineScope(coroutineContext)
 
 
     override val loginModel: LoginModel
         get() = LoginModel()
 
 
-    val flagLogin = MutableLiveData<Boolean>()
-    val repository = LoginRepository()
-/*
-    init {
+    //val flagLogin = MutableLiveData<Boolean>()
+
+   /* init {
         flagLogin.value = false
-        lifeCycleRegistry = LifecycleRegistry(this)
-    }
-*/
+        //lifeCycleRegistry = LifecycleRegistry(this)
+    }*/
+
     fun changeFlagLogin(){
-        flagLogin.value = true
+        //flagLogin.value = true
+        scope.launch {
+            val responsePojo = repository.validarUser()
+            if (responsePojo != null)
+                mutableResponse.value = responsePojo
+        }
     }
 
     fun repositoryResponse(user : String, pass : String){
-
-        observable = object : Observable<Response<PojoLogin>>() {
-            override fun subscribeActual(observer: Observer<in Response<PojoLogin>>?) {
-
-            }
-        }
-
-        observer = object : Observer<Response<PojoLogin>> {
-            override fun onComplete() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onNext(t: Response<PojoLogin>) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onError(e: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        }
-
-        observable.subscribe(observer)
-
-
 
         /*repository.statusMutable?.observe(this, object : Observer<Response<PojoLogin>> {
             override fun onChanged(t: Response<PojoLogin>?) {
@@ -68,8 +56,8 @@ class LoginViewModel : BaseViewModel<UINavigator, LoginModel>(){
 
         })*/
 
+        //repository.repositoryResponse(user, pass)
 
-        repository.repositoryResponse(user, pass, observable)
         /*val success : Boolean
 
         if (user.isNullOrEmpty() or pass.isNullOrEmpty()){
