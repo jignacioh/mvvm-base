@@ -8,8 +8,5 @@ class BaseApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin(this, appModules)
-        /*startKoin{androidContext(this@BaseApp)
-        androidLogger()
-        modules(appModules)}*/
     }
 }

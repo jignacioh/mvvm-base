@@ -3,7 +3,9 @@ package com.arch.core.arquetype.di
 import com.arch.core.arquetype.live_data.login.LoginRepositoryLD
 import com.arch.core.arquetype.live_data.login.LoginViewModelLD
 import com.arch.core.arquetype.repository.TasksRepository
+import com.arch.core.arquetype.executor.CoroutinesExecutor
 import com.arch.core.arquetype.repository.TasksRepositoryImpl
+import com.arch.core.arquetype.usecase.*
 import com.arch.core.arquetype.retrofit.RetrofitClient
 import com.arch.core.arquetype.viewmodelui.TasksViewModel
 import com.arch.core.arquetype.viewmodelui.UiViewModel
@@ -15,9 +17,24 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 val appModule = module {
+
+
+    // Executor
+    single { CoroutinesExecutor() }
+
+    // Repository
+    single { TasksRepositoryImpl() }
+
+    // Use Case
+    single { TasksUseCaseImpl(getTasksRepositoryImpl = get(),getCoroutinesExecutor = get()) }
+
+    // ViewModel
     viewModel{ UiViewModel(get()) }
     viewModel { TasksViewModel(get()) }
     viewModel { LoginViewModelLD(get()) }
+    viewModel { TasksViewModel(getTasksUseCase = get()) }
+
+
 
     single<UiViewModel.HelloRepository> { UiViewModel.HelloRepositoryImpl() }
     single<TasksRepository> { TasksRepositoryImpl() }

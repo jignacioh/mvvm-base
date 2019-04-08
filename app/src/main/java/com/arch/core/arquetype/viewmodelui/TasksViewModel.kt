@@ -2,28 +2,36 @@ package com.arch.core.arquetype.viewmodelui
 
 import android.util.Log
 import androidx.lifecycle.Lifecycle
-import com.arch.core.arquetype.base.BaseViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
-import com.arch.core.arquetype.base.BaseRepository
-import com.arch.core.arquetype.di.RetrofitFactory
+import com.arch.core.arquetype.base.BaseViewModel
 import com.arch.core.arquetype.model.Model
 import com.arch.core.arquetype.model.Task
-import com.arch.core.arquetype.repository.TasksRepository
+import com.arch.core.arquetype.usecase.TasksUseCaseImpl
+import com.arch.core.arquetype.di.fold
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 
-class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNavigator>() {
+class TasksViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewModel<TasksNavigator>() {
 
     var arrayList = MutableLiveData<Model>()
 
     var tasksLiveData = MutableLiveData<MutableList<Task>>()
 
-    private val parentJob = Job()
+    private val parentJob = SupervisorJob()
+
+    private val exceptionHandler = CoroutineExceptionHandler {
+            _, _ ->
+        Log.e("ERROR","ERROR")
+       // parentJob.cancel()
+        getNavigator()?.showAction(false)
+
+
+    }
 
     private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Default+CoroutineName("sd")
+        get() =  parentJob+ Dispatchers.Main + CoroutineName("Coroutine") + exceptionHandler
 
     private val scope = CoroutineScope(coroutineContext)
 
@@ -31,25 +39,54 @@ class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNav
 
     fun addOne() {
 
+        /*
         val(id)=vTask
 
         print(vTask.component1())
 
         var vTask2=vTask.copy(id=4)
 
+        getNavigator()?.showAction(true)
+
         scope.launch {
-            val tasks = repository.getMoreTasks()
-            if (tasks != null) {
-                tasksLiveData.postValue(tasks)
+            println(Thread.currentThread().name)
+            val result1Deferred = async {
+                println(Thread.currentThread().name)
+                repository.getMoreTasks()
+
             }
+            tasksLiveData.postValue(result1Deferred.await())
+            getNavigator()?.showAction(false)
+
         }
+*/
+        getNavigator()!!.showAction(true)
+        getTasksUseCase.execute(
+            onResult = { result ->
+                result.fold(
+                    {
+                        getNavigator()!!.showAction(false)
+                    },
+                    {
+                        tasks ->
+                        getNavigator()!!.showAction(false)
+                        tasksLiveData.postValue(tasks)}
+                    )
+            })
     }
 
+    fun cancelRequest(){
+        getNavigator()?.showAction(false)
+        if (parentJob.isActive) {
+            parentJob.cancelChildren()
+        }
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun init() {
-        Log.i("onCreate","onCreate viewModel")
-        tasksLiveData.postValue( repository.getTasks())
+
+        //tasksLiveData.postValue( repository.getTasks())
 
     }
 
@@ -60,6 +97,7 @@ class TasksViewModel (val repository : TasksRepository) : BaseViewModel<TasksNav
 
     override fun onCleared() {
         super.onCleared()
-        parentJob.cancel()
+        Log.i("onCleared","onCleared viewModel")
+        //parentJob.cancel()
     }
 }

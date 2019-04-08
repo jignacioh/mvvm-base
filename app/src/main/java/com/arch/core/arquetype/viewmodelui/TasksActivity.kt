@@ -1,10 +1,11 @@
 package com.arch.core.arquetype.viewmodelui
 
-import android.os.Bundle
+import  android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arch.core.arquetype.BR
 import com.arch.core.arquetype.base.BaseActivity
 import com.arch.core.arquetype.R
@@ -14,8 +15,7 @@ import com.arch.core.arquetype.databinding.ActivityTasksBinding
 import com.arch.core.arquetype.model.Task
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),TasksNavigator {
-
+class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),TasksNavigator,SwipeRefreshLayout.OnRefreshListener {
 
     override val viewModel: TasksViewModel
         get() {
@@ -58,11 +58,20 @@ class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),Tasks
         mActivityTasksBinding!!.recyclerView.adapter!!.notifyDataSetChanged()
     }
 
-    override fun showAction() {
 
-        //Log.i("showAction", "doAction" + viewModel.repository.giveHello())
+    override fun onRefresh() {
+       viewModel.addOne()
     }
 
+    override fun showAction(state : Boolean) {
+
+        Log.i("showAction", "doAction")
+        mActivityTasksBinding!!.swipeLayout!!.isRefreshing =state
+    }
+
+    override fun showError() {
+
+    }
     override fun onDestroy() {
         super.onDestroy()
         viewModel.tasksLiveData.removeObserver(observerTask)

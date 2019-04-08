@@ -10,23 +10,38 @@
                 type="com.arch.core.arquetype.viewmodelui.TasksViewModel"/>
 
     </data>
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="match_parent"
+                android:layout_above="@+id/button"
+                android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_margin="5dp"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <Button
+                android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_margin="5dp"/>
-
-        <Button android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_above="@+id/buttonCancel"
                 android:text="ADD ONE"
-                android:layout_below="@+id/recyclerView"
                 android:onClick="@{() -> tasksViewModel.addOne()}"
         />
+        <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Cancel"
+                android:onClick="@{() -> tasksViewModel.cancelRequest()}"
+        />
     </RelativeLayout>
+
 
 
 </layout>
