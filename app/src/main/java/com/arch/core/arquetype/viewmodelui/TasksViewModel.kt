@@ -23,10 +23,10 @@ class TasksViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewM
 
     private val exceptionHandler = CoroutineExceptionHandler {
             _, _ ->
+
         Log.e("ERROR","ERROR")
        // parentJob.cancel()
         getNavigator()?.showAction(false)
-
 
     }
 
@@ -38,28 +38,6 @@ class TasksViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewM
     val vTask = Task(3)
 
     fun addOne() {
-
-        /*
-        val(id)=vTask
-
-        print(vTask.component1())
-
-        var vTask2=vTask.copy(id=4)
-
-        getNavigator()?.showAction(true)
-
-        scope.launch {
-            println(Thread.currentThread().name)
-            val result1Deferred = async {
-                println(Thread.currentThread().name)
-                repository.getMoreTasks()
-
-            }
-            tasksLiveData.postValue(result1Deferred.await())
-            getNavigator()?.showAction(false)
-
-        }
-*/
         getNavigator()!!.showAction(true)
         getTasksUseCase.execute(
             onResult = { result ->
@@ -98,6 +76,6 @@ class TasksViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewM
     override fun onCleared() {
         super.onCleared()
         Log.i("onCleared","onCleared viewModel")
-        //parentJob.cancel()
+        parentJob.cancel()
     }
 }

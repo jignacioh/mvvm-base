@@ -23,5 +23,4 @@ open class TasksUseCaseImpl (val getTasksRepositoryImpl: TasksRepositoryImpl,val
     }
 
 
-
 }
