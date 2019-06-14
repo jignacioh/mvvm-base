@@ -19,4 +19,14 @@ data class Model(var parts:List<Task>) :BaseRepository.Mappable<ModelRest> {
 }
 
 @JsonClass(generateAdapter = true)
-data class LoginLD(var category : List<String>, var icon_url : String, var id : String, var url : String, var value : String){}
+//data class LoginLD(var pojoObject:PojoLogin) : BaseRepository.Mappable<ModelRestLogin>{
+data class LoginLD(var category : List<String>, var icon_url : String, var id : String, var url : String, var value : String) : BaseRepository.Mappable<ModelRestLogin>{
+
+    override fun mapToResult(): BaseRepository.Result<ModelRestLogin> = when {
+        isValid() -> BaseRepository.Result.Success(ModelRestLogin(category, icon_url, id, url, value))
+
+        else -> BaseRepository.Result.Error(java.lang.Exception("Login Error"))
+    }
+
+    private fun isValid() = (category!=null && icon_url!=null && id!=null && url!=null && value!=null)
+}

@@ -28,9 +28,11 @@ val appModule = module {
     // Use Case
     single { TasksUseCaseImpl(getTasksRepositoryImpl = get(),getCoroutinesExecutor = get()) }
 
+    single { LoginUseCaseImpl(getcoroutinesExecutor =  get(), repositoryLD = get()) }
+
     // ViewModel
     viewModel{ UiViewModel(repo = get()) }
-    viewModel { LoginViewModelLD(repository = get()) }
+    viewModel { LoginViewModelLD(loginUsecase = get()) }
     viewModel { TasksViewModel(getTasksUseCase = get()) }
 
 
@@ -43,7 +45,8 @@ val appModule = module {
 val appModules = listOf(appModule)
 
 object RetrofitFactory {
-    const val BASE_URL = /*"https://api.chucknorris.io"*/"http://192.168.8.102"
+    //const val BASE_URL = "https://api.chucknorris.io"
+    const val BASE_URL = "http://192.168.64.2"
 
     fun makeRetrofitService(): RetrofitService {
         return Retrofit.Builder()

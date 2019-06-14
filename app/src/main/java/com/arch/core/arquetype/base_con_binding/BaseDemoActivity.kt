@@ -9,10 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.annotation.TargetApi
+import android.app.Dialog
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 
 
 abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : AppCompatActivity() {
+
+    var pBar : ProgressBar? = null
+    var dialog: Dialog? = null
 
     var viewDataBinding: T? = null
         private set
@@ -79,6 +85,36 @@ abstract class BaseDemoActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(permissions, requestCode)
         }
+    }
+
+    fun showLoader(){
+
+        if (pBar == null)
+            pBar = ProgressBar(this)
+        pBar!!.setBackgroundResource(android.R.color.transparent)
+        //pBar.setIndeterminateDrawableTiled(resources.getDrawable(android.R.drawable.ic_media_play))
+
+        /* alertDialog = AlertDialog.Builder(this, android.R.style.notitlebar)
+         alertDialog//.setTitle("Loading")
+             .setCancelable(false)
+             .setView(pBar)
+             //.setMessage("Message")
+             .show()
+         */
+
+        if (dialog == null){
+            dialog = Dialog(this)
+        }
+
+        dialog!!.window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog!!.setContentView(pBar)
+        dialog!!.setCancelable(false)
+        dialog!!.show()
+    }
+
+    fun dismissLoader(){
+        if (dialog != null)
+            dialog?.dismiss()
     }
 
 }

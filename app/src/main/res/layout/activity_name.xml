@@ -8,9 +8,6 @@
                 name="loginLiveData"
                 type="com.arch.core.arquetype.live_data.login.LoginViewModelLD"/>
     </data>
-<FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,22 +34,4 @@
                 android:text="Login"
                 android:layout_margin="5dp"/>
     </LinearLayout>
-    <RelativeLayout
-            android:id="@+id/backgroundLoader"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="#8000">
-        <!--<ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>-->
-        <ImageView
-                android:id="@+id/ivLoader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-        android:src="@drawable/draw_loader"
-        android:layout_centerInParent="true"/>
-    </RelativeLayout>
-</FrameLayout>
 </layout>

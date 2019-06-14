@@ -33,7 +33,6 @@ class LoginActivityLD : BaseDemoActivity<ActivityNameBinding, LoginViewModelLD>(
     lateinit var btnRunner : Button
     lateinit var txtUser : EditText
     lateinit var txtPassword : EditText
-    lateinit var backgroundLoader : RelativeLayout
 
     lateinit var animationDrawable: AnimationDrawable
 
@@ -59,14 +58,13 @@ class LoginActivityLD : BaseDemoActivity<ActivityNameBinding, LoginViewModelLD>(
         btnRunner = findViewById(R.id.btnRunner)
         txtUser = findViewById(R.id.txtUser)
         txtPassword = findViewById(R.id.txtPassword)
-        backgroundLoader = findViewById(R.id.backgroundLoader)
-
+/*
         backgroundLoader.setOnClickListener {
             backgroundLoader.visibility = View.GONE
-            hideLoader()
+            dismissLoader()
             myViewModel.cancelCoRoutine()
         }
-
+*/
         validatePass()
 /*
         btnRunner.setOnClickListener {
@@ -76,12 +74,12 @@ class LoginActivityLD : BaseDemoActivity<ActivityNameBinding, LoginViewModelLD>(
     }
 
     fun abrirIntent(){
-        backgroundLoader.visibility = View.GONE
+        dismissLoader()
         startActivity(Intent(this, ViewModelActivity::class.java))
     }
 
     override fun showError(message : String){
-        backgroundLoader.visibility = View.GONE
+        dismissLoader()
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -89,7 +87,6 @@ class LoginActivityLD : BaseDemoActivity<ActivityNameBinding, LoginViewModelLD>(
         txtPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s?.length == 4) {
-                    backgroundLoader.visibility = View.VISIBLE
                     showLoader()
                     myViewModel.changeFlagLogin()
                 }
@@ -105,12 +102,4 @@ class LoginActivityLD : BaseDemoActivity<ActivityNameBinding, LoginViewModelLD>(
         })
     }
 
-    fun showLoader(){
-        animationDrawable = ivLoader.drawable as AnimationDrawable
-        ivLoader.post(Runnable { animationDrawable.start() })
-    }
-
-    fun hideLoader(){
-        ivLoader.post(Runnable { animationDrawable.stop() })
-    }
 }

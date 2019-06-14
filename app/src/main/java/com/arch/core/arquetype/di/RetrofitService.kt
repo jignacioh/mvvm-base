@@ -14,7 +14,7 @@ interface RetrofitService {
     @POST("/fakes/MyFakeResponse.php")
     fun getTasks(): Deferred<Response<Model>>
 
-    @GET("/jokes/random?category=dev")
+    @GET("/base_demo/chucknorris.php")
     fun getDataLogin() : Deferred<Response<LoginLD>>
 }
 
