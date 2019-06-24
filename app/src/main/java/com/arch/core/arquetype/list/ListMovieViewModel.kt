@@ -1,4 +1,4 @@
-package com.arch.core.arquetype.viewmodelui
+package com.arch.core.arquetype.list
 
 import android.util.Log
 import androidx.lifecycle.Lifecycle
@@ -7,12 +7,12 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.viewModelScope
 import com.arch.core.arquetype.base.BaseViewModel
 import com.arch.core.arquetype.model.Task
-import com.arch.core.arquetype.usecase.TasksUseCaseImpl
 import com.arch.core.arquetype.repository.network.Failure
-import kotlinx.coroutines.*
+import com.arch.core.arquetype.usecase.TasksUseCaseImpl
+import com.arch.core.arquetype.viewmodelui.TasksNavigator
+import kotlinx.coroutines.cancel
 
-
-class TasksViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewModel<TasksNavigator>() {
+class ListMovieViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewModel<TasksNavigator>() {
 
 
     var tasksLiveData = MutableLiveData<MutableList<Task>>()
@@ -89,13 +89,7 @@ class TasksViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewM
 
     override fun onCleared() {
         super.onCleared()
-        Log.i("onCleared","onCleared viewModel")
         viewModelScope.cancel()
     }
-
-
-
-
-
 
 }

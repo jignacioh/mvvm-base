@@ -7,7 +7,7 @@ import com.arch.core.arquetype.BR
 import com.arch.core.arquetype.R
 import com.arch.core.arquetype.base.BaseActivity
 import com.arch.core.arquetype.databinding.ActivityViewModelBinding
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ViewModelActivity : BaseActivity<ActivityViewModelBinding, UiViewModel>(), UINavigator {

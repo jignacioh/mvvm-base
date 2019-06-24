@@ -57,3 +57,5 @@ l
 <app/src/main/java/com/arch/core/arquetype/usecase/UseCase.kt,d/b/dbc2fa5ade95f2c4d72c0b9234656e159ad96e34
 u
 Eapp/src/main/java/com/arch/core/arquetype/usecase/TasksUseCaseImpl.kt,9/d/9dde2d62eb7b927ecb8e44b68b3afd4038e2d2c4
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4

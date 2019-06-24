@@ -6,8 +6,8 @@ import com.arch.core.arquetype.usecase.*
 import com.arch.core.arquetype.viewmodelui.TasksViewModel
 import com.arch.core.arquetype.viewmodelui.UiViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -25,8 +25,9 @@ val appModule = module {
     single { TasksUseCaseImpl(getTasksRepositoryImpl = get(),getCoroutinesExecutor = get()) }
 
     // ViewModel
-    viewModel{ UiViewModel(get()) }
+    viewModel { UiViewModel(get()) }
     viewModel { TasksViewModel(getTasksUseCase = get()) }
+
 
 
 
@@ -36,7 +37,7 @@ val appModule = module {
 val appModules = listOf(appModule)
 
 object RetrofitFactory {
-    const val BASE_URL = "http://192.168.8.105"
+    const val BASE_URL = "http://192.168.137.133"
 
     fun makeRetrofitService(): RetrofitService {
         return Retrofit.Builder()

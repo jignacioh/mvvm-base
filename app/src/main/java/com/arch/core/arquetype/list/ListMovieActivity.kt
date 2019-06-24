@@ -1,23 +1,23 @@
-package com.arch.core.arquetype.viewmodelui
+package com.arch.core.arquetype.list
 
-import  android.os.Bundle
+import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arch.core.arquetype.BR
-import com.arch.core.arquetype.base.BaseActivity
 import com.arch.core.arquetype.R
-
-
+import com.arch.core.arquetype.base.BaseActivity
 import com.arch.core.arquetype.databinding.ActivityTasksBinding
 import com.arch.core.arquetype.model.Task
+import com.arch.core.arquetype.viewmodelui.TasksAdapter
+import com.arch.core.arquetype.viewmodelui.TasksNavigator
+import com.arch.core.arquetype.viewmodelui.TasksViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.reflect.KFunction1
 
-class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),TasksNavigator,SwipeRefreshLayout.OnRefreshListener {
+
+class ListMovieActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(), TasksNavigator, SwipeRefreshLayout.OnRefreshListener {
 
     override val viewModel: TasksViewModel
         get() {
@@ -68,7 +68,7 @@ class TasksActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(),Tasks
 
 
     override fun onRefresh() {
-       viewModel.addOne()
+        viewModel.addOne()
     }
 
     override fun showAction(state : Boolean) {

@@ -5,6 +5,7 @@ import com.arch.core.arquetype.di.RetrofitFactory
 import com.arch.core.arquetype.model.Task
 import com.arch.core.arquetype.di.Either
 import com.arch.core.arquetype.di.GetTasksFailure
+import com.arch.core.arquetype.repository.network.Failure
 
 open class TasksRepositoryImpl() : BaseRepository(),TasksRepository {
 
@@ -21,6 +22,15 @@ open class TasksRepositoryImpl() : BaseRepository(),TasksRepository {
             return Either.Left(GetTasksFailure.NetworkConnection())
         }
 
+    }
+
+    override suspend fun getAllTasks2(maxNumberOfTasks: Int): List<Task> {
+            val service = RetrofitFactory.makeRetrofitService()
+            val response = safeApiCall(
+                call = {service.getTasks().await()},
+                errorMessage = "Error Fetching"
+            )
+            return response!!.parts
     }
 
     override suspend fun getMoreTasks() : MutableList<Task>?{

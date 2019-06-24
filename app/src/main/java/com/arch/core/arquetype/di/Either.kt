@@ -12,6 +12,17 @@ sealed class Either<out L, out R> {
 
     fun <L> left(a: L) = Left(a)
     fun <R> right(b: R) = Right(b)
+
+    fun either(fnL: (L) -> Any, fnR: (R) -> Any): Any =
+        when (this) {
+            is Left -> {
+                fnL(value)
+            }
+            is Right -> {
+                fnR(value)
+            }
+        }
+
 }
 
  fun <L, R, T> Either<L, R>.fold(left: (L) -> T, right: (R) -> T): T =

@@ -12,7 +12,7 @@ import android.annotation.TargetApi
 import android.view.inputmethod.InputMethodManager
 
 
-abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity() , BaseFragment.Callback {
 
 
 

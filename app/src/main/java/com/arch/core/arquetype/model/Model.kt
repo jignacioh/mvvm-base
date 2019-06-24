@@ -1,6 +1,7 @@
 package com.arch.core.arquetype.model
 
 import com.arch.core.arquetype.base.BaseRepository
+import com.arch.core.arquetype.model.rest.ModelRest
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)

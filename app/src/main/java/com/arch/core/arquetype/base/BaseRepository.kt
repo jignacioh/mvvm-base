@@ -1,15 +1,11 @@
 package com.arch.core.arquetype.base
 
 import android.util.Log
-import com.arch.core.arquetype.di.RetrofitFactory
-import com.arch.core.arquetype.model.Model
-import com.arch.core.arquetype.model.ModelRest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
-import java.lang.Error
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
