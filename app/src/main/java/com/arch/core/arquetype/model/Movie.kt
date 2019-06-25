@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Movie(var id: Int){
 
+    constructor(id: Int,nameMovie: String?, yearMovie: String?) : this(id) {
+        this.nameMovie = nameMovie
+        this.yearMovie = yearMovie
+    }
+
     @SerializedName("poster_path")
     var urlMovie: String? = null
 

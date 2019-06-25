@@ -9,7 +9,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arch.core.arquetype.BR
 import com.arch.core.arquetype.R
 import com.arch.core.arquetype.base.BaseActivity
-import com.arch.core.arquetype.databinding.ActivityTasksBinding
+import com.arch.core.arquetype.databinding.ActivityMoviesBinding
+import com.arch.core.arquetype.model.Movie
 import com.arch.core.arquetype.model.Task
 import com.arch.core.arquetype.viewmodelui.TasksAdapter
 import com.arch.core.arquetype.viewmodelui.TasksNavigator
@@ -17,34 +18,32 @@ import com.arch.core.arquetype.viewmodelui.TasksViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ListMovieActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(), TasksNavigator, SwipeRefreshLayout.OnRefreshListener {
+class ListMovieActivity : BaseActivity<ActivityMoviesBinding, ListMovieViewModel>(), ListMovieNavigator, SwipeRefreshLayout.OnRefreshListener {
 
-    override val viewModel: TasksViewModel
+    override val viewModel: ListMovieViewModel
         get() {
-            val model: TasksViewModel by viewModel()
+            val model: ListMovieViewModel by viewModel()
             return model
         }
 
     override val layoutId: Int
-        get() = R.layout.activity_tasks
+        get() = R.layout.activity_movies
     override val bindingVariable: Int
-        get() = BR.tasksViewModel
+        get() = BR.moviesViewModel
 
-    private var mActivityTasksBinding: ActivityTasksBinding? = null
+    private var mActivityMoviesBinding: ActivityMoviesBinding? = null
 
-    private val tasks = ArrayList<Task>()
+    private val tasks = ArrayList<Movie>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mActivityTasksBinding = viewDataBinding
+        mActivityMoviesBinding = viewDataBinding
         viewModel.setNavigator(this)
 
-        mActivityTasksBinding!!.recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        mActivityMoviesBinding!!.recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        val rvAdapter = TasksAdapter(tasks)
-        mActivityTasksBinding!!.recyclerView.adapter = rvAdapter
-
-        //lifecycle.addObserver(viewModel)
+        val rvAdapter = ListMovieAdapter(tasks)
+        mActivityMoviesBinding!!.recyclerView.adapter = rvAdapter
 
     }
 
@@ -55,26 +54,19 @@ class ListMovieActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(), 
         viewModel.state.observe(this,observerTask2)
     }
 
-    val observerTask2 = Observer<TasksViewModel.TasksState> { value ->
+    val observerTask2 = Observer<ListMovieViewModel.MovieState> { value ->
 
         onTasksStateChange(value)
     }
 
-
-    val observerTask = Observer<MutableList<Task>> { value ->
-        tasks.addAll(value)
-        mActivityTasksBinding!!.recyclerView.adapter!!.notifyDataSetChanged()
-    }
-
-
     override fun onRefresh() {
-        viewModel.addOne()
+        viewModel.addTwo()
     }
 
     override fun showAction(state : Boolean) {
 
         Log.i("showAction", "doAction")
-        mActivityTasksBinding!!.swipeLayout!!.isRefreshing =state
+        mActivityMoviesBinding!!.swipeLayout.isRefreshing =state
     }
 
     override fun showError() {
@@ -82,31 +74,38 @@ class ListMovieActivity : BaseActivity<ActivityTasksBinding, TasksViewModel>(), 
     }
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.tasksLiveData.removeObserver(observerTask)
+        viewModel.state.removeObserver(observerTask2)
     }
 
-    private fun onTasksStateChange(state: TasksViewModel.TasksState?) {
+    private fun onTasksStateChange(state: ListMovieViewModel.MovieState?) {
         when (val tasksState = state!!) {
-            is TasksViewModel.TasksState.Loading -> showLoading()
-            is TasksViewModel.TasksState.Empty -> showEmptyState()
-            is TasksViewModel.TasksState.Success -> renderList(tasksState.tasks)
+            is ListMovieViewModel.MovieState.None -> hideLoading()
+            is ListMovieViewModel.MovieState.Loading -> showLoading()
+            is ListMovieViewModel.MovieState.Empty -> showEmptyState()
+            is ListMovieViewModel.MovieState.Success -> renderList(tasksState.tasks)
         }
+    }
+
+    private fun hideLoading() {
+        Log.i("LOADING","LOADING")
+        mActivityMoviesBinding!!.swipeLayout.isRefreshing =false
     }
 
     private fun showLoading() {
         Log.i("LOADING","LOADING")
-        mActivityTasksBinding!!.swipeLayout!!.isRefreshing =true
+        mActivityMoviesBinding!!.swipeLayout.isRefreshing =true
     }
 
     private fun showEmptyState() {
         Log.i("VACIO","VACIO")
-        mActivityTasksBinding!!.swipeLayout!!.isRefreshing =false
+        mActivityMoviesBinding!!.swipeLayout.isRefreshing =false
     }
 
-    private fun renderList(allTasks: List<Task>) {
+    private fun renderList(allTasks: List<Movie>) {
         Log.i("RENDER LIST","RENDER LIST")
+        mActivityMoviesBinding!!.swipeLayout.isRefreshing =false
         tasks.addAll(allTasks)
-        mActivityTasksBinding!!.recyclerView.adapter!!.notifyDataSetChanged()
+        mActivityMoviesBinding!!.recyclerView.adapter!!.notifyDataSetChanged()
     }
 
     override fun onFragmentAttached() {

@@ -11,6 +11,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ViewModelActivity : BaseActivity<ActivityViewModelBinding, UiViewModel>(), UINavigator {
+    override fun onFragmentAttached() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFragmentDetached() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
     val factory = ViewModelProvider.NewInstanceFactory()

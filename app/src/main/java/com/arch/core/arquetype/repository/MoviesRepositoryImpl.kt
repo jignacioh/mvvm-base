@@ -5,6 +5,7 @@ import com.arch.core.arquetype.di.Either
 import com.arch.core.arquetype.di.GetTasksFailure
 import com.arch.core.arquetype.di.RetrofitFactory
 import com.arch.core.arquetype.model.ListMovie
+import com.arch.core.arquetype.model.Movie
 import com.arch.core.arquetype.model.Task
 
 class MoviesRepositoryImpl() : BaseRepository(),MoviesRepository {
@@ -13,10 +14,12 @@ class MoviesRepositoryImpl() : BaseRepository(),MoviesRepository {
     override suspend fun getAllMovies(maxNumberOfTasks: Int): ListMovie {
         val service = RetrofitFactory.makeRetrofitService()
         val response = safeApiCall(
-            call = {service.getTasks().await()},
+            call = {
+                service.loadMovies("c0714efb46e79050d5ec43956cdbeac3").await()
+            },
             errorMessage = "Error Fetching"
         )
-        return response!!.parts
+        return response!!
     }
 
 }

@@ -41,8 +41,6 @@ n
 >app/src/main/java/com/arch/core/arquetype/base/BaseActivity.kt,3/4/340d318e8a8a6b31e32baabeb29f06aff13e7b3a
 o
 ?app/src/main/java/com/arch/core/arquetype/base/BaseViewModel.kt,d/3/d3c48c60472fc6e7fa1464dc6d2403c0c57541a8
-l
-<app/src/main/java/com/arch/core/arquetype/model/ModelRest.kt,3/a/3a424a4f5b462e51c588f48038b8e4f30487391b
 h
 8app/src/main/java/com/arch/core/arquetype/di/Failures.kt,7/0/70db33aec6fcbbbaa0a453400bb49eeadffa9e14
 f
@@ -59,3 +57,17 @@ u
 Eapp/src/main/java/com/arch/core/arquetype/usecase/TasksUseCaseImpl.kt,9/d/9dde2d62eb7b927ecb8e44b68b3afd4038e2d2c4
 A
 gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+r
+Bapp/src/main/java/com/arch/core/arquetype/usecase/MoviesUseCase.kt,d/2/d29650d77757acfd803d2280cdbcb73c9e14764a
+q
+Aapp/src/main/java/com/arch/core/arquetype/model/rest/ModelRest.kt,9/b/9bba5307c09c33f54e07039ed0715bea5a0d6efe
+|
+Lapp/src/main/java/com/arch/core/arquetype/repository/MoviesRepositoryImpl.kt,0/8/08151889444894c20c870385d13f1a687b045e40
+l
+<app/src/main/java/com/arch/core/arquetype/model/ListMovie.kt,2/1/21388767e662b9fb2235c2281405b2dd5b097930
+h
+8app/src/main/java/com/arch/core/arquetype/model/Movie.kt,5/b/5b0d53496e401c032c7de22003f1d5065eb53e5b
+z
+Japp/src/main/java/com/arch/core/arquetype/model/rest/ListMovieModelRest.kt,b/0/b0eb68adc8b707e1527aca0b36b4cbe6e52e42a3
+q
+Aapp/src/main/java/com/arch/core/arquetype/model/ListMovieModel.kt,e/0/e08715be867e944d8fbd26f5af2ebd102416d110

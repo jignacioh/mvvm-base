@@ -13,7 +13,7 @@ data class ListMovieModel(var parts:ListMovie) : BaseRepository.Mappable<ListMov
         else -> BaseRepository.Result.Error(Exception("User body is invalid"))
     }
 
-    private fun isValid() = parts.results?.isNotEmpty()
+    private fun isValid() = parts.results!!.isNotEmpty()
     // var parts: List<Task>? = ArrayList<Task>()
 
 

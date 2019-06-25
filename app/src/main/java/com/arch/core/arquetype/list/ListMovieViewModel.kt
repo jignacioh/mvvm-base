@@ -6,72 +6,59 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.viewModelScope
 import com.arch.core.arquetype.base.BaseViewModel
+import com.arch.core.arquetype.model.ListMovie
+import com.arch.core.arquetype.model.Movie
 import com.arch.core.arquetype.model.Task
 import com.arch.core.arquetype.repository.network.Failure
+import com.arch.core.arquetype.usecase.MoviesUseCase
 import com.arch.core.arquetype.usecase.TasksUseCaseImpl
 import com.arch.core.arquetype.viewmodelui.TasksNavigator
 import kotlinx.coroutines.cancel
 
-class ListMovieViewModel (private val getTasksUseCase: TasksUseCaseImpl) : BaseViewModel<TasksNavigator>() {
+class ListMovieViewModel (private val getMoviesUseCase: MoviesUseCase) : BaseViewModel<ListMovieNavigator>() {
 
-
-    var tasksLiveData = MutableLiveData<MutableList<Task>>()
-
-
-    sealed class TasksState {
-        object Loading : TasksState()
-        object Empty : TasksState()
-        data class Success(val tasks: List<Task>) : TasksState()
+    sealed class MovieState {
+        object None : MovieState()
+        object Loading : MovieState()
+        object Empty : MovieState()
+        data class Success(val tasks: List<Movie>) : MovieState()
     }
 
-    val state = MutableLiveData<TasksState>().apply {
-        this.value = TasksState.Loading
+    val state = MutableLiveData<MovieState>().apply {
+        this.value = MovieState.None
     }
 
-    fun addOne() {
+    fun addTwo() {
 
-
-        getNavigator()!!.showAction(true)
-        val params = TasksUseCaseImpl.Params(50)
-        getTasksUseCase.invoke(viewModelScope,params){
+        state.value = MovieState.Loading
+        //getNavigator()!!.showAction(true)
+        val params = MoviesUseCase.Params(50)
+        getMoviesUseCase.invoke(viewModelScope,params){
             it.either(::handleFailure,::handleSuccess)
         }
 
-        /*getTasksUseCase.execute(
-            onResult = { result ->
-                result.fold(
-                    {
-                        getNavigator()!!.showAction(false)
-                    },
-                    {
-                        tasks ->
-                        getNavigator()!!.showAction(false)
-                        tasksLiveData.postValue(tasks)}
-                    )
-            })*/
     }
 
-    private fun handleSuccess(list: List<Task>) {
+    private fun handleSuccess(list: ListMovie) {
         when {
-            list.isEmpty() -> state.value = TasksState.Empty
-            list.isNotEmpty() -> state.value = TasksState.Success(mapToPresentation(list))
+            list.results!!.isEmpty() -> state.value = MovieState.Empty
+            list.results!!.isNotEmpty() -> state.value = MovieState.Success(mapToPresentation(list))
         }
     }
 
     private fun handleFailure(failure: Failure) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        Log.e("ERROR","ERROR")
+        state.value = MovieState.None
+        Log.e("ERROR",failure.toString())
     }
 
-    private fun mapToPresentation(friends: List<Task>): List<Task> {
-        return friends.map { Task(2, it.itemName!!) }
+    private fun mapToPresentation(friends: ListMovie): List<Movie> {
+        return friends.results!!.map {
+            Movie(it.id,it.nameMovie,it.yearMovie)
+        }
     }
 
-    fun cancelRequest(){
-        getNavigator()?.showAction(false)
-        /*if (parentJob.isActive) {
-            parentJob.cancelChildren()
-        }*/
+    fun cancel(){
+        state.value = MovieState.None
 
     }
 

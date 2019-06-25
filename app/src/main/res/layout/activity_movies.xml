@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".list.ListMovieActivity">
+    <data>
+        <import type="android.view.View" />
+        <variable
+                name="moviesViewModel"
+                type="com.arch.core.arquetype.list.ListMovieViewModel"/>
+
+    </data>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="match_parent"
+                android:layout_above="@+id/buttonMovie"
+                android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_margin="5dp"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <Button
+                android:id="@+id/buttonMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/buttonCancelMovie"
+                android:text="ADD ONE"
+                android:onClick="@{() -> moviesViewModel.addTwo()}"
+        />
+        <Button
+                android:id="@+id/buttonCancelMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Cancel"
+                android:onClick="@{() -> moviesViewModel.cancel()}"
+        />
+    </RelativeLayout>
+
+
+
+</layout>

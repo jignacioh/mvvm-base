@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface RetrofitService {
 
     @GET("movie/popular")
-    abstract fun loadMovies(@Query("api_key") apiKey: String): Deferred<ListMovie>
+    fun loadMovies(@Query("api_key") apiKey: String): Deferred<Response<ListMovie>>
 
     @POST("/Fakes3/MyFakesResponse.php")
     fun getTasks(): Deferred<Response<Model>>
